@@ -1,7 +1,7 @@
 # pedersen-commitments
 Implementation of Perdersen commitments in node.js and solidity.
 
-These commitments are used to commit to a value now, but not reveal actual the value til later (or never).
+These commitments are used to commit to a value now, but not reveal the actual value til later (or never).
 
 Commitments can then be added together or subtracted from each other using homomorphic encryption without revealing the values committed to.
 
