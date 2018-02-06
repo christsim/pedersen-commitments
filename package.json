@@ -1,0 +1,29 @@
+{
+  "name": "pedersen-commitments",
+  "version": "1.0.0",
+  "description": "Implementation of Perdersen commitments in node.js and solidity.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christsim/pedersen-commitments.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/christsim/pedersen-commitments/issues"
+  },
+  "homepage": "https://github.com/christsim/pedersen-commitments#readme",
+  "dependencies": {
+    "elliptic": "^6.4.0"
+  },
+  "devDependencies": {
+    "bip39": "^2.5.0",
+    "hdkey": "^0.7.1"
+  }
+}
