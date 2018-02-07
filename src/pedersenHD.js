@@ -1,55 +1,54 @@
-var HDKey = require('hdkey');
 var pedersen = require('./pedersen');
 
-/**
- * A managed pedersen commitment scheme using hd keys
- * To help keep track of commitments
- * 
- * @param {*} hdKeyString - xpriv key string
- * @param {*} H - H generator point for the commitments for this system
- * @param {*} rIndex - starting blinding key index
- */
-function PedersenHD(hdKeyString, H, rIndex = 0) {
-    this.rootPath = "m/0";
-    this.hdRoot = HDKey.fromExtendedKey(hdKeyString);
-    this.rIndex = rIndex; // current index count
+var EC = require('elliptic').ec;
+var ec = new EC('secp256k1');
+var BN = require('bn.js')
+var crypto = require('crypto');
 
-    // must not change for our system
-    this.H = H;
+/**
+ * A managed pedersen commitment scheme 
+ * To help keep generate commitments simpler
+ * 
+ */
+function setup(H, randomPrivateKeyGenerator) {
+    randomPrivateKeyGenerator = randomPrivateKeyGenerator || generatePrivateKey;
+    console.log(ec.g.mul(randomPrivateKeyGenerator()).toJSON());
+    return {
+        H:  H || ec.g.mul(randomPrivateKeyGenerator()).toJSON(),
+        randomPrivateKeyGenerator
+    };
 }
 
-PedersenHD.prototype
-    .getBlindingFactorPath(index) = this.rootPath + "/'/" + index;     // hardened
-
 // functions
-PedersenHD.prototype
-    .getAndIncrementRIndex = () => this.rIndex++;
-
-PedersenHD.prototype
-    .commitTo = (value) => {
-        var index = this.getAndIncrementRIndex();
-        var blindingPath = this.getBlindingFactorPath(index);
-        var hdR = this.hdRoot.derive(blindingPath);
-        var r = toNumber(hdR.privateKey);
-        var C = pedersen.commitTo(this.H, r, value);
+function commitTo (params, value) {
+        var r = params.randomPrivateKeyGenerator();
+        var C = pedersen.commitTo(ec.curve.pointFromJSON(params.H), r, value);
         return {
-            C,
-            path: blindingPath,
-            private: {
-                r,
-                value
-            }
+            C: C.toJSON(),
+            r: r.toString('hex'),
+            v: value
         }
     }
 
-PedersenHD.prototype
-    .verify = (C, path, value) => {
-        var blindingPath = this.getBlindingFactorPath(index);
-        var hdR = this.hdRoot.derive(blindingPath);
-        var r = toNumber(hdR.privateKey);
-        return pedersen.verify(this.H, C, rG, value);
+function verify(params, C, r, value) {
+        var cp = ec.curve.pointFromJSON(C);
+        return pedersen.verify(ec.curve.pointFromJSON(params.H), cp, r, value);
     }
 
 function toNumber(priv) {
     return new BN(priv.toString('hex'), 'hex');
 }
+
+function generatePrivateKey() {
+    var random;
+    do {
+        random = toNumber(crypto.randomBytes(32));
+    } while(random >= ec.n);    // make sure it's in the safe range
+    return random;
+}
+
+module.exports = {
+    setup,
+    commitTo,
+    verify
+};

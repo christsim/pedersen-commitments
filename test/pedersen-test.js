@@ -51,7 +51,6 @@ describe('pedersen', () => {
         // alice's balance to go down by 5
         // aC1 - tC = aC2
         var checkAC2 = pedersen.subPrivately(H, r[2], r[1], 10, 5);
-
         assert(aC2.eq(checkAC2));
 
         // bob's balance to go up by 5
