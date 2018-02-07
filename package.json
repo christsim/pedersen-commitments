@@ -22,8 +22,9 @@
   "dependencies": {
     "bip39": "^2.5.0",
     "bn": "^1.0.1",
-    "elliptic": "^6.4.0",
-    "hdkey": "^0.7.1"
+    "elliptic": "^6.4.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "hdkey": "^0.8.0"
+  }
 }
