@@ -1,7 +1,7 @@
 # pedersen-commitments
 Implementation of Perdersen commitments in node.js and solidity.
 
-These commitments are used to commit to a value now, but not reveal actual the value til later (or never).
+These commitments are used to commit to a value now, but not reveal the actual value til later (or never).
 
 Commitments can then be added together or subtracted from each other using homomorphic encryption without revealing the values committed to.
 
@@ -35,8 +35,8 @@ For example, lets say Alice wants to send Bob some private coins:
 that their balances are correct by privately checking it with:
     - Where ra, rb and rt are the private blinding keys
 ```
-    pedersen.verifyBalance(H, Caf, ra.sub(rt), b - t);
-    pedersen.verifyBalance(H, Cbf, rb.add(rt), b + t);
+    pedersen.verifyCommitment(H, Caf, ra.sub(rt), b - t);
+    pedersen.verifyCommitment(H, Cbf, rb.add(rt), b + t);
 ```
 
 Alice and Bob's balances are now completely hidden from prying eyes.  We are also convinced that no coins were added or removed from the ecosystem.  However, we still don't know if the balances and transfer amount are negative.  A further proof needs to be added to the commitment to prove that all values are positive.
