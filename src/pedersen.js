@@ -2,10 +2,10 @@ var EC = require('elliptic').ec;
 var ec = new EC('secp256k1');
 
 // commit to a Value X
-//  rG - public Key used as blinding factor
+//   r - private Key used as blinding factor
 //   H - shared private? point on the curve
-function commitTo(H, rG, x) {
-    return rG.add(H.mul(x));
+function commitTo(H, r, x) {
+    return ec.g.mul(r).add(H.mul(x));
 }
 
 // sum two commitments using homomorphic encryption
@@ -48,9 +48,7 @@ function subPrivately(H, rX, rY, vX, vY) {
  * @param {*} r - blinding factor private key used to create the commitment
  * @param {*} v - original value committed to
  */
-function verifyCommitment(H, C, r, v) {
-    // umod to wrap around if negative
-    var rZ = r.umod(ec.n);
+function verify(H, C, r, v) {
     return ec.g.mul(r).add(H.mul(v)).eq(C);
 }
 
@@ -61,5 +59,5 @@ module.exports = {
     subCommitments,
     addPrivately,
     subPrivately,
-    verifyCommitment  
+    verify  
 }

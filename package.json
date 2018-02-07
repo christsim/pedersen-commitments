@@ -20,10 +20,10 @@
   },
   "homepage": "https://github.com/christsim/pedersen-commitments#readme",
   "dependencies": {
-    "elliptic": "^6.4.0"
-  },
-  "devDependencies": {
     "bip39": "^2.5.0",
+    "bn": "^1.0.1",
+    "elliptic": "^6.4.0",
     "hdkey": "^0.7.1"
-  }
+  },
+  "devDependencies": {}
 }
