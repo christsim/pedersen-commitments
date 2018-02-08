@@ -7,8 +7,6 @@ var BN = require('bn.js')
 var EC = require('elliptic').ec;
 var ec = new EC('secp256k1');
 
-
-
 function createHdKey() {
     return HDKey.fromMasterSeed(bip39.mnemonicToSeedHex(bip39.generateMnemonic()));
 }
