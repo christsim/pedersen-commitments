@@ -21,7 +21,7 @@ describe('pedersenHD', () => {
         var c2 = PedersenHD.commitTo(params, 11);
 
         var C2 = PedersenHD.add(c1.C, c2.C);
-        
+        PedersenHD.verify(params, c1.C, )
 
     })
 });
