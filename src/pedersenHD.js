@@ -10,16 +10,18 @@ var crypto = require('crypto');
  * To help keep generate commitments simpler
  * 
  */
-function setup(Hp) {
-    return {
-        Hp: Hp || generatePrivateKey().toString('hex')
-    };
+function setup(H) {
+    return { H: H || ec.g.mul(generatePrivateKey()).encode('hex') };
+}
+
+function getH(params) {
+    return ec.curve.decodePoint(params.H, 'hex');
 }
 
 // functions
 function commitTo(params, value) {
     var r = generatePrivateKey();
-    var C = pedersen.commitTo(ec.curve.mul(params.Hp), r, value);
+    var C = pedersen.commitTo(ec.curve.mul(getH(params)), r, value);
     return {
         C: C.toJSON(),
         r: r.toString('hex'),
@@ -29,7 +31,7 @@ function commitTo(params, value) {
 
 function verify(params, C, r, value) {
     var cp = ec.curve.pointFromJSON(C);
-    return pedersen.verify(ec.curve.pointFromJSON(params.H), cp, r, value);
+    return pedersen.verify(getH(params), cp, r, value);
 }
 
 function add(c1, c2) {

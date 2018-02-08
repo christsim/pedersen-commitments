@@ -25,6 +25,7 @@
     "elliptic": "^6.4.0"
   },
   "devDependencies": {
-    "hdkey": "^0.8.0"
+    "hdkey": "^0.8.0",
+    "mocha": "^5.0.0"
   }
 }
