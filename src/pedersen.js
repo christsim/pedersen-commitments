@@ -1,5 +1,7 @@
 var EC = require('elliptic').ec;
 var ec = new EC('secp256k1');
+var HN = require('./hex-number.js');
+var crypto = require('crypto');
 
 // commit to a Value X
 //   r - private Key used as blinding factor
@@ -10,13 +12,13 @@ function commitTo(H, r, x) {
 
 // sum two commitments using homomorphic encryption
 //
-function addCommitments(Cx, Cy) {
+function add(Cx, Cy) {
     return Cx.add(Cy);
 }
 
 // subtract two commitments using homomorphic encryption
 //
-function subCommitments(Cx, Cy) {
+function sub(Cx, Cy) {
     return Cx.add(Cy.neg());
 }
 
@@ -52,12 +54,29 @@ function verify(H, C, r, v) {
     return ec.g.mul(r).add(H.mul(v)).eq(C);
 }
 
+/**
+ * generate a random number for my curve
+ */
+function generateRandom() {
+    var random;
+    do {
+        random = HN.toBN(HN.fromBuffer(crypto.randomBytes(32)));
+    } while (random.gte(ec.n)); // make sure it's in the safe range
+    return random;
+}
+
+function generateH() {
+    return ec.g.mul(generateRandom());
+}
+
 
 module.exports = {
     commitTo,
-    addCommitments,
-    subCommitments,
+    add,
+    sub,
     addPrivately,
     subPrivately,
-    verify  
+    verify,
+    generateRandom,
+    generateH
 }

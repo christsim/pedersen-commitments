@@ -8,20 +8,20 @@ Commitments can then be added together or subtracted from each other using homom
 For example, lets say Alice wants to send Bob some private coins:
  - Alice has already committed to a balance of *a* using function:
      - Where H is a random point on the curve chosen for this system
-     - raPub is the blinding factor used to hide the transaction
+     - ra is the blinding factor used to hide the transaction
      
 ```
-    Ca = perdersen.commitTo(H, raPub, a);
+    Ca = perdersen.commitTo(H, ra, a);
 ```
  - Bob has also committed to a balance of *b*:
 
  ```
-    Cb = perdersen.commitTo(H, rbPub, b);
+    Cb = perdersen.commitTo(H, rb, b);
  ```
  - Alice commits to send bob *t* coins.  
 
  ```
-    Ct = perdersen.commitTo(H, rtPub, t);
+    Ct = perdersen.commitTo(H, rt, t);
  ```
  - To conserve the total number of coins in the system, Alice's balance needs to be decreased by *t* and Bob's balance need to increase by *t*.  
     - This will allow any third party looking at the system to conclude that no coins were created or destroyed. (however, this does not cater for negative numbers, which need to be handled in a difference way)
