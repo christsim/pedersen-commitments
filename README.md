@@ -1,5 +1,5 @@
 # pedersen-commitments
-Implementation of pedersen commitments in node.js and solidity.
+Implementation of pedersen commitments in node.js.
 
 These commitments are used to commit to a value now, but not reveal the actual value til later (or never).
 
