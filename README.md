@@ -35,7 +35,7 @@ For example, lets say Alice wants to send Bob some private coins:
 that their balances are correct by privately checking it with:
     - Where ra, rb and rt are the private blinding keys
 ```
-    pedersen.verifyCommitment(H, Caf, ra.sub(rt), b - t);
+    pedersen.verifyCommitment(H, Caf, ra.sub(rt), a - t);
     pedersen.verifyCommitment(H, Cbf, rb.add(rt), b + t);
 ```
 
